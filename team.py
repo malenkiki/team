@@ -32,6 +32,7 @@ import gettext
 from gettext import gettext as _
 from teamlib.version import APP_VERSION
 from teamlib.version import APP_NAME
+from teamlib.Team import Team
 
 local_path = os.path.realpath(os.path.dirname(sys.argv[0])) + os.sep + 'locale'
 
@@ -68,10 +69,14 @@ except IOError as e:
 def main():
     parser = optparse.OptionParser(version="%prog " + APP_VERSION)
     parser.add_option("-t", "--token", dest="token", help=_("Token you must get from your administrator or by your settings page on Ruche web site you are using."), metavar=_("STRING"))
+    parser.add_option("-u", "--url", dest="url", help=_("URL base to use for the request."), metavar=_("URL"))
     parser.add_option("--csv", dest='csv', help=_("Export response as CSV."), metavar=_('FILE'))
     parser.add_option("--xml", dest='xml', help=_("Export response as XML."), metavar=_('FILE'))
     parser.add_option("--json", dest='json', help=_("Export response as JSON."), metavar=_('FILE'))
     (options, args) = parser.parse_args()
+
+    if(options.token and options.url):
+        t = Team(options.token, options.url)
 
 
 if __name__ == "__main__":

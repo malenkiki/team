@@ -34,16 +34,15 @@ except ImportError:
 
 
 class Team(object):
-    def __init__(self, user, password, uri):
+    def __init__(self, user, uri):
         self.user = user
-        self.password = password
         self.uri = uri
         self.headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json; charset=UTF-8'
         }
 
-    def param(opts={}):
+    def param(self, opts):
         return urllib.urlencode(opts)
 
     def request(self, method='GET', path='', body='', opts={}):
@@ -52,11 +51,11 @@ class Team(object):
         h = http.Http()
 
         # authentication:
-        h.add_credentials(self.user, self.password)
+        h.add_credentials(self.user, 'xxx')
 
         response, content = h.request(target.geturl(), method, body, self.headers)
-        print type(content)
+        return {'response': response, 'content': json.loads(content)}
 
     def getAllTimeEntries(self, opts={}):
-        self.request(path='/time_entries.json', opts=opts)
+        return self.request(path='/time_entries.json', opts=opts)
 
