@@ -60,7 +60,7 @@ class Team(object):
         return self.request(path='/time_entries.json', opts=opts)
 
     def getAllTimeEntriesForProject(self, project_id, opts={}):
-        return self.request(path='/projects/' + project_id + '/time_entries.json', opts=opts)
+        return self.request(path='/projects/%s/time_entries.json' % project_id, opts=opts)
 
     def getAllTimeEntriesForToDoItem(self, todo_item_id, opts={}):
-        return self.request(path='/todo_items/' + todo_item_id + '/time_entries.json', opts=opts)
+        return self.request(path='/todo_items/%s/time_entries.json' % todo_item_id, opts=opts)
