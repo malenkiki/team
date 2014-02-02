@@ -52,6 +52,7 @@ class Team(object):
                 content[k] = bool(int(v))
 
     def request(self, method='GET', path='', body='', opts={}):
+        # TODO use opts param for GET/POST
         target = urlparse(self.uri + path)
 
         h = http.Http()
@@ -62,11 +63,28 @@ class Team(object):
         response, content = h.request(target.geturl(), method, body, self.headers)
         return {'response': response, 'content': json.loads(content)}
 
+    def get_time_entry(self, time_entry_id):
+        return self.request(path='/time_entries/%s.json' % time_entry_id)
+
+    def update_time_entry(self, time_entry_id, opts={}):
+        return self.request(method='PUT', path='/time_entries/%s.json' % time_entry_id, opts=opts)
+
+    def delete_time_entry(self, time_entry_id):
+        return self.request(method='DELETE', path='/time_entries/%s.json' % time_entry_id)
+
     def get_all_time_entries(self, opts={}):
         return self.request(path='/time_entries.json', opts=opts)
 
     def get_all_time_entries_for_project(self, project_id, opts={}):
         return self.request(path='/projects/%s/time_entries.json' % project_id, opts=opts)
 
-    def get_all_time_entries_for_to_do_item(self, todo_item_id, opts={}):
+    def get_all_time_entries_for_todo_item(self, todo_item_id, opts={}):
         return self.request(path='/todo_items/%s/time_entries.json' % todo_item_id, opts=opts)
+
+    def create_time_entry_for_project(self, project_id, opts={}):
+        return self.request(method='POST', path='/projects/%s/time_entries.json' % project_id, opts=opts)
+
+    def create_time_entry_for_todo_item(self, todo_item_id, opts={}):
+        return self.request(method='POST', path='/todo_items/%s/time_entries.json' % todo_item_id, opts=opts)
+
+
