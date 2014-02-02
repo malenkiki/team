@@ -52,7 +52,6 @@ class Team(object):
                 content[k] = bool(int(v))
 
     def request(self, method='GET', path='', body='', opts={}):
-        # TODO use opts param for GET/POST
         target = urlparse(self.uri + path)
 
         h = http.Http()
@@ -60,7 +59,11 @@ class Team(object):
         # authentication:
         h.add_credentials(self.user, 'xxx')
 
-        response, content = h.request(target.geturl(), method, body, self.headers)
+        # TODO use opts param for GET/PUT/POST
+        if method == 'GET':
+            response, content = h.request(target.geturl() +'?' + self.param(opts), method, body, self.headers)
+        else:
+            response, content = h.request(target.geturl(), method, self.param(opts), self.headers)
         return {'response': response, 'content': json.loads(content)}
 
     def get_account(self):
@@ -69,6 +72,12 @@ class Team(object):
 
     def get_authenticate(self):
         return self.request(path='/authenticate.json')
+
+    def get_latest_activities(self, opts={}):
+        return self.request(path='/latestActivity.json', opts=opts)
+
+    def get_latest_activities_for_project(self, project_id, opts={}):
+        return self.request(path='/projects/%s/latestActivity.json' % project_id, opts=opts)
 
     def get_time_entry(self, time_entry_id):
         return self.request(path='/time_entries/%s.json' % time_entry_id)
