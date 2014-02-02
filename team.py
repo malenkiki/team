@@ -63,8 +63,8 @@ try:
     lang = gettext.translation(APP_NAME, local_path, languages=langs, fallback = False)
     _ = lang.ugettext
 except IOError as e:
-    print 'Translation not implemented yet!'
-    print e.strerror
+    sys.stderr.write('Translation not implemented yet!\n')
+    sys.stderr.write(e.strerror + '\n')
 
 def main():
     parser = optparse.OptionParser(version="%prog " + APP_VERSION)
