@@ -63,6 +63,13 @@ class Team(object):
         response, content = h.request(target.geturl(), method, body, self.headers)
         return {'response': response, 'content': json.loads(content)}
 
+    def get_account(self):
+        """Retrieves details about the Teamwork account."""
+        return self.request(path='/account.json')
+
+    def get_authenticate(self):
+        return self.request(path='/authenticate.json')
+
     def get_time_entry(self, time_entry_id):
         return self.request(path='/time_entries/%s.json' % time_entry_id)
 
