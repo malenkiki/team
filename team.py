@@ -75,7 +75,7 @@ def main():
     parser.add_option("--json", dest='json', help=_("Export response as JSON."), metavar=_('FILE'))
     (options, args) = parser.parse_args()
 
-    if(options.token and options.url):
+    if options.token and options.url:
         t = Team(options.token, options.url)
 
 
