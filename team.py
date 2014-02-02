@@ -32,7 +32,7 @@ import gettext
 from gettext import gettext as _
 from teamlib.version import APP_VERSION
 from teamlib.version import APP_NAME
-from teamlib.Team import Team
+from teamlib.team import Team
 
 local_path = os.path.realpath(os.path.dirname(sys.argv[0])) + os.sep + 'locale'
 

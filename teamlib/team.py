@@ -45,6 +45,12 @@ class Team(object):
     def param(self, opts):
         return urllib.urlencode(opts)
 
+    def filter(self, content):
+        # TODO code that!
+        for k,v in content.iteritems():
+            if k == isbillable:
+                content[k] = bool(int(v))
+
     def request(self, method='GET', path='', body='', opts={}):
         target = urlparse(self.uri + path)
 
@@ -56,11 +62,11 @@ class Team(object):
         response, content = h.request(target.geturl(), method, body, self.headers)
         return {'response': response, 'content': json.loads(content)}
 
-    def getAllTimeEntries(self, opts={}):
+    def get_all_time_entries(self, opts={}):
         return self.request(path='/time_entries.json', opts=opts)
 
-    def getAllTimeEntriesForProject(self, project_id, opts={}):
+    def get_all_time_entries_for_project(self, project_id, opts={}):
         return self.request(path='/projects/%s/time_entries.json' % project_id, opts=opts)
 
-    def getAllTimeEntriesForToDoItem(self, todo_item_id, opts={}):
+    def get_all_time_entries_for_to_do_item(self, todo_item_id, opts={}):
         return self.request(path='/todo_items/%s/time_entries.json' % todo_item_id, opts=opts)
